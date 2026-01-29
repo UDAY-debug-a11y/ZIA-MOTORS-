@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIA Motors | Ultra Luxury Cars</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:#000;color:#fff;scroll-behavior:smooth}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:18px 70px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);
+  z-index:1000
+}
+nav h1{font-family:'Playfair Display';letter-spacing:3px}
+nav ul{display:flex;gap:30px;list-style:none}
+nav ul li a{color:#fff;text-decoration:none;font-weight:500;cursor:pointer}
+
+/* HERO VIDEO */
+.hero{
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:1;
+}
+.hero video{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+.hero-content{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2;
+}
+.hero-content h2{
+  font-size:70px;
+  font-family:'Playfair Display';
+  letter-spacing:4px;
+  text-align:center;
+}
+
+/* SECTIONS */
+section{padding:120px 80px}
+h3{text-align:center;font-family:'Playfair Display';font-size:44px;margin-bottom:40px}
+
+/* FILTERS */
+.filters{text-align:center;margin-bottom:40px}
+.filters button{
+  background:none;
+  border:1px solid #fff;
+  color:#fff;
+  padding:10px 25px;
+  margin:5px;
+  border-radius:30px;
+  cursor:pointer
+}
+.filters button.active{background:#d4af37;color:#000}
+
+/* CARS */
+.cars{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:40px
+}
+.car{
+  border-radius:25px;
+  overflow:hidden;
+  cursor:pointer;
+  position:relative
+}
+.car img{
+  width:100%;
+  height:420px;
+  object-fit:cover;
+  transition:1s
+}
+.car:hover img{transform:scale(1.05)}
+.car-info{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  padding:30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end
+}
+.price{color:#d4af37;font-size:20px}
+
+/* MODAL */
+#detailModal{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:5000}
+.detail-box{max-width:900px;margin:80px auto;background:#111;border-radius:25px;padding:30px;text-align:center;position:relative}
+.close{position:absolute;top:20px;right:30px;font-size:40px;cursor:pointer}
+.buyBtn{background:#25D366;color:#fff;padding:14px 28px;border-radius:40px;text-decoration:none;display:inline-block;margin:10px;font-weight:500}
+#extraDetails{margin-top:20px;font-size:16px;line-height:1.9}
+#interiorSlider{margin-top:20px;display:flex;gap:12px;overflow-x:auto;padding-bottom:10px}
+
+/* CONTACT */
+#contact{
+  padding:80px;
+  background:#111;
+  border-top:1px solid #333;
+  text-align:center;
+  font-size:20px;
+  line-height:2
+}
+#contact strong{color:#d4af37}
+#contact img{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  margin-top:20px;
+  object-fit:cover
+}
+
+/* FOOTER */
+footer{
+  background:#111;
+  padding:40px;
+  text-align:center;
+  font-size:14px
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:15px 25px}
+  nav ul{gap:15px;flex-direction:column}
+  .hero-content h2{font-size:38px}
+  .hero{height:70vh}
+  section{padding:90px 30px}
+  h3{font-size:32px;margin-bottom:30px}
+  .filters button{padding:8px 18px;font-size:14px}
+  .cars{grid-template-columns:1fr;gap:25px}
+  .car img{height:300px}
+  #contact img{width:120px;height:120px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<h1>ZIA MOTORS</h1>
+<ul>
+  <li><a onclick="document.getElementById('home').scrollIntoView({behavior:'smooth'})">Home</a></li>
+  <li><a onclick="document.getElementById('cars').scrollIntoView({behavior:'smooth'})">Cars</a></li>
+  <li><a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</a></li>
+</ul>
+</nav>
+
+<!-- HERO VIDEO -->
+<div class="hero" id="home">
+  <video id="heroVideo" autoplay muted playsinline></video>
+  <div class="hero-content">
+    <h2>ZIA MOTORS</h2>
+  </div>
+</div>
+
+<!-- CARS -->
+<section id="cars">
+<h3>Elite Luxury Collection</h3>
+<div class="filters">
+  <button class="active" onclick="filterCars('all',event)">All</button>
+  <button onclick="filterCars('ultra',event)">Ultra</button>
+  <button onclick="filterCars('sports',event)">Sports</button>
+  <button onclick="filterCars('suv',event)">SUV</button>
+</div>
+<div class="cars" id="carsGrid"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h3>Contact Us</h3>
+<div>
+Helpline: <strong>81115432165</strong><br>
+Email: <strong>jiya@yahoo.com</strong><br>
+<strong>ziamotors@gmail.com</strong><br>
+Address: <strong>Hillcrest Country Club, 10000 W Pico Blvd, Los Angeles, CA 90064 California, USA</strong><br>
+Owner: <strong>ZIA</strong><br>
+<img src="https://i.postimg.cc/4NJT0pVP/Screenshot-25-1-2026-195910-www-instagram-com.jpg" alt="Owner ZIA">
+</div>
+</section>
+
+<!-- DETAIL MODAL -->
+<div id="detailModal">
+  <div class="detail-box">
+    <span class="close" onclick="closeDetail()">×</span>
+    <h2 id="dName"></h2>
+    <h3 id="dPrice" style="color:#d4af37"></h3>
+    <div id="extraDetails"></div>
+    <div id="interiorSlider"></div>
+    <a id="whatsappBtn" class="buyBtn" target="_blank">WhatsApp Enquiry</a>
+  </div>
+</div>
+
+<footer>© 2012 ZIA MOTORS | Luxury Without Limits</footer>
+
+<script>
+/* HERO VIDEO SLIDER */
+const heroVideos = [
+"https://res.cloudinary.com/dghdnwyj9/video/upload/v1769498450/WhatsApp_Video_2026-01-27_at_12.48.06_PM_tdvqku.mp4",
+"https://res.cloudinary.com/dghdnwyj9/video/upload/v1769501345/BMW_CAR_EDITS_SEVERAL_MODELS_AND_PURE_CLASS_OF_BMW_%EF%B8%8F_NEXA_BROTHERS_-_NEXA_BROTHERS_10K_1080p_h264_k7pfz2.mp4",
+"https://res.cloudinary.com/dghdnwyj9/video/upload/v1769501413/Bugatti_Chiron_Edit_2_4K_-_CoreEditz_1080p_h264_mfkjnp.mp4",
+"https://res.cloudinary.com/dghdnwyj9/video/upload/v1769501553/Bugatti_Chiron_Pur_Sport_4K_-_Millionaire_Motorsport_1080p_h264_g14gaf.mp4"
+];
+let currentVideo = 0;
+const heroVideo = document.getElementById("heroVideo");
+heroVideo.src = heroVideos[0];
+heroVideo.play();
+setInterval(() => {
+currentVideo = (currentVideo + 1) % heroVideos.length;
+heroVideo.src = heroVideos[currentVideo];
+heroVideo.play();
+}, 40000);
+
+/* CARS DATA & FULL SPECS */
+const carImages={
+"Bugatti Chiron":"https://i.postimg.cc/YCz34wTN/ev-22-1.webp",
+"Bugatti Divo":"https://i.postimg.cc/TYqm0J07/uuuu.jpg",
+"Bugatti Mistral":"https://i.postimg.cc/jSqm5Cmj/bbb.jpg",
+"Rolls Royce Phantom":"https://i.postimg.cc/YqrmywTm/Rolls-Royce-Phantom-Centenary-1761301434089-1761301434275.avif",
+"Rolls Royce Cullinan":"https://i.postimg.cc/ZnMZc3GS/images.jpg",
+"Rolls Royce Spectre":"https://i.postimg.cc/63bDJKYV/SSSS.avif",
+"Bentley Flying Spur":"https://i.postimg.cc/TPs30zgV/er.jpg",
+"Bentley Bentayga":"https://i.postimg.cc/K8KVLCcR/Model-Stage-Main.jpg",
+"Ferrari SF90":"https://i.postimg.cc/sxvPqdNh/SF90-XX-Spider-1920-x-614.avif",
+"Ferrari 812 GTS":"https://i.postimg.cc/k5TbmY8v/123.webp",
+"Ferrari LaFerrari":"https://i.postimg.cc/pXMBVTyd/124.jpg",
+"Lamborghini Aventador SVJ":"https://i.postimg.cc/L6VjH3rQ/aventador-svj-s2-m.jpg",
+"Lamborghini Revuelto":"https://i.postimg.cc/3J9DMJvs/front-left-side-47.avif",
+"Lamborghini Urus":"https://i.postimg.cc/PJ5T1h50/oooopooooo.avif",
+"McLaren 765LT":"https://i.postimg.cc/Bbz9DKyj/mm.webp",
+"McLaren P1":"https://i.postimg.cc/4xCjgsRP/qw.jpg",
+"Porsche 911 GT3 RS":"https://i.postimg.cc/PqfjgTmh/ghgh.jpg",
+"Aston Martin Valkyrie":"https://i.postimg.cc/ydJwKdxj/M6302-SN4-marketing-photo-52-Landscape-edit-2000x850-crop-center.webp",
+"Aston Martin DBX 707":"https://i.postimg.cc/nVBPGND4/2025-aston-martin-dbx707-front-rancho-mirage-ca.jpg",
+"Range Rover SV":"https://i.postimg.cc/fyN5PT9r/Range-Rover-Ranthambore-Edition-Exterior-1.jpg",
+"Maybach GLS 600":"https://i.postimg.cc/zXDFHQSX/2024-mercedes-maybach-gls.avif",
+"Rimac Nevera":"https://i.postimg.cc/T1dgmybZ/rimac-nevera-r.webp",
+"Lotus Evija":"https://i.postimg.cc/1RvN236k/1280px-2020-Lotus-Evija.jpg",
+"Pagani Huayra":"https://i.postimg.cc/fWqJ5gQk/download.webp",
+"Pagani Utopia":"https://i.postimg.cc/3JDJ18Zj/Pagani-Utopia.jpg",
+"Koenigsegg Jesko":"https://i.postimg.cc/pd0p705w/Jesko-Odin-Front.webp",
+"Tesla Roadster":"https://i.postimg.cc/JnD4FRLy/dede.jpg",
+"Porsche Taycan Turbo S":"https://i.postimg.cc/rwBh4JwC/78.webp",
+"Bentley Mulsanne":"https://i.postimg.cc/Y9bfdftC/Mulsanne-Speed.jpg",
+"Cullinan Black Badge":"https://i.postimg.cc/qvysPdpS/maxresdefault.jpg"
+};
+
+const cars=[
+["Bugatti Chiron","₹30 Cr","ultra"],
+["Bugatti Divo","₹45 Cr","ultra"],
+["Bugatti Mistral","₹42 Cr","ultra"],
+["Rolls Royce Phantom","₹10 Cr","ultra"],
+["Rolls Royce Cullinan","₹7 Cr","suv"],
+["Rolls Royce Spectre","₹9 Cr","ultra"],
+["Bentley Flying Spur","₹6 Cr","ultra"],
+["Bentley Bentayga","₹5.5 Cr","suv"],
+["Ferrari SF90","₹7 Cr","sports"],
+["Ferrari 812 GTS","₹6 Cr","sports"],
+["Ferrari LaFerrari","₹22 Cr","sports"],
+["Lamborghini Aventador SVJ","₹8 Cr","sports"],
+["Lamborghini Revuelto","₹8.5 Cr","sports"],
+["Lamborghini Urus","₹4 Cr","suv"],
+["McLaren 765LT","₹6 Cr","sports"],
+["McLaren P1","₹18 Cr","sports"],
+["Porsche 911 GT3 RS","₹4.5 Cr","sports"],
+["Aston Martin Valkyrie","₹25 Cr","sports"],
+["Aston Martin DBX 707","₹4.8 Cr","suv"],
+["Range Rover SV","₹4 Cr","suv"],
+["Maybach GLS 600","₹3.5 Cr","suv"],
+["Rimac Nevera","₹20 Cr","sports"],
+["Lotus Evija","₹22 Cr","sports"],
+["Pagani Huayra","₹35 Cr","ultra"],
+["Pagani Utopia","₹40 Cr","ultra"],
+["Koenigsegg Jesko","₹28 Cr","sports"],
+["Tesla Roadster","₹2.5 Cr","sports"],
+["Porsche Taycan Turbo S","₹2.8 Cr","sports"],
+["Bentley Mulsanne","₹6.5 Cr","ultra"],
+["Cullinan Black Badge","₹8 Cr","suv"]
+];
+
+const grid=document.getElementById("carsGrid");
+cars.forEach(c=>{
+grid.innerHTML+=`
+<div class="car ${c[2]}" onclick="openDetail('${c[0]}','${c[1]}')">
+<img src="${carImages[c[0]]}" loading="lazy">
+<div class="car-info">
+<h4>${c[0]}</h4>
+<div class="price">${c[1]}</div>
+</div>
+</div>`;
+});
+
+/* FILTER FUNCTION */
+function filterCars(type,e){
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('.car').forEach(c=>{
+    c.style.display = (type==='all'||c.classList.contains(type))?'block':'none';
+  });
+}
+
+/* MODAL */
+const detailModal=document.getElementById('detailModal');
+const dName=document.getElementById('dName');
+const dPrice=document.getElementById('dPrice');
+const whatsappBtn=document.getElementById('whatsappBtn');
+
+const fullSpecs = {
+  "Bugatti Chiron":{hp:"1500 HP",speed:"420 km/h",average:"5 km/l",interiors:["https://i.postimg.cc/sg7q7M7Q/Z3A7768.webp","https://i.postimg.cc/8CCY3tx6/13-BUGATTI-Chiron-Sport-int.jpg","https://i.postimg.cc/g05g7dV9/Bugatti-Chiron-11.jpg","https://i.postimg.cc/cLkhKZ51/d1b6a269bc2486b0dc040922cfd71bc326e2e02a.webp"]},
+  "Bugatti Divo":{hp:"1500 HP",speed:"380 km/h",average:"5 km/l",interiors:["https://i.postimg.cc/brK8YKcb/10-bugatti-divo-horseshoe.jpg","https://i.postimg.cc/rp8Tp13X/454785.avif","https://i.postimg.cc/x1Q8Kbh3/engine-50.avif","https://i.postimg.cc/wMJxN6kZ/taillight-44.avif"]},
+  "Bugatti Mistral":{hp:"1600 HP",speed:"420 km/h",average:"5 km/l",interiors:["https://i.postimg.cc/vmMnHKb2/04-BUGATTI-W16-Mistral-Roadster.avif","https://i.postimg.cc/XYx5q8q5/22fa3cbe2dfc48f7fa0730184e04466e.jpg","https://i.postimg.cc/TYJLN9rQ/Bugatti-W16-Mistral-World-Record-f49b39bdf7.jpg","https://i.postimg.cc/C18dGHhf/bugatti-mistral-interieur-jpg.webp","https://i.postimg.cc/CL75sKg6/e12bd4f4a6178358ec49eb4dd55ab39bx.avif","https://i.postimg.cc/Lsc88Ytt/p369ti7aobzb1.jpg"]},
+  "Rolls Royce Phantom":{hp:"563 HP",speed:"250 km/h",average:"8 km/l",interiors:["https://i.postimg.cc/43WsjYxD/Rolls-Royce-Phantom-Interior.jpg","https://i.postimg.cc/JhCFjDLw/rolls-royce-phantom-2.jpg","https://i.postimg.cc/dtbw2kQy/rolls-royce-phantom-3.jpg","https://i.postimg.cc/m2PnSCfX/rolls-royce-phantom-4.jpg"]}
+};
+
+function openDetail(name,price){
+  detailModal.style.display='flex';
+  dName.innerText=name;
+  dPrice.innerText=price;
+  whatsappBtn.href=`https://wa.me/919999999999?text=Interested in ${name}`;
+  const box=document.getElementById("extraDetails");
+  const slider=document.getElementById("interiorSlider");
+  if(fullSpecs[name]){
+    const specs = fullSpecs[name];
+    box.innerHTML=`<strong>Horsepower:</strong> ${specs.hp} | <strong>Top Speed:</strong> ${specs.speed} | <strong>Average:</strong> ${specs.average}`;
+    slider.innerHTML = specs.interiors.map(url=>`<img src="${url}" style="width:180px;height:120px;object-fit:cover;border-radius:15px">`).join("");
+  }else{
+    box.innerHTML="<em>Full specs not available</em>";
+    slider.innerHTML="";
+  }
+}
+
+function closeDetail(){detailModal.style.display='none';}
+</script>
+
+</body>
+</html>
+
